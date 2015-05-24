@@ -354,6 +354,9 @@ public class DragTopLayout extends FrameLayout {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
+        if(topView.getTop() >= 0){
+            return true;
+        }
         try {
 
             boolean intercept = shouldIntercept && dragHelper.shouldInterceptTouchEvent(ev);
