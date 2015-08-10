@@ -352,55 +352,6 @@ public class DragTopLayout extends FrameLayout {
         }
     }
 
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        try {
-
-            boolean intercept = shouldIntercept && dragHelper.shouldInterceptTouchEvent(ev);
-            return intercept;
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-
-        final int action = MotionEventCompat.getActionMasked(event);
-
-        if (!dispatchingChildrenContentView) {
-            try {
-                // There seems to be a bug on certain devices: "pointerindex out of range" in viewdraghelper
-                // https://github.com/umano/AndroidSlidingUpPanel/issues/351
-                dragHelper.processTouchEvent(event);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (action == MotionEvent.ACTION_MOVE && ratio == 0.0f) {
-            dispatchingChildrenContentView = true;
-            if (!dispatchingChildrenDownFaked) {
-                dispatchingChildrenStartedAtY = event.getY();
-                event.setAction(MotionEvent.ACTION_DOWN);
-                dispatchingChildrenDownFaked = true;
-            }
-            dragContentView.dispatchTouchEvent(event);
-        }
-
-        if (dispatchingChildrenContentView && dispatchingChildrenStartedAtY < event.getY()) {
-            resetDispatchingContentView();
-        }
-
-        if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL) {
-            resetDispatchingContentView();
-            dragContentView.dispatchTouchEvent(event);
-        }
-
-        return true;
-    }
-
     private void resetDispatchingContentView() {
         dispatchingChildrenDownFaked = false;
         dispatchingChildrenContentView = false;
@@ -613,6 +564,47 @@ public class DragTopLayout extends FrameLayout {
 
         SavedState(Parcelable superState) {
             super(superState);
+        }
+
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        final int action = MotionEventCompat.getActionMasked(event);
+        if(shouldIntercept) {
+            if (!dispatchingChildrenContentView) {
+                try {
+                    // There seems to be a bug on certain devices: "pointerindex out of range" in viewdraghelper
+                    // https://github.com/umano/AndroidSlidingUpPanel/issues/351
+                    dragHelper.processTouchEvent(event);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (action == MotionEvent.ACTION_MOVE && ratio == 0.0f) {
+                dispatchingChildrenContentView = true;
+                if (!dispatchingChildrenDownFaked) {
+                    dispatchingChildrenStartedAtY = event.getY();
+                    event.setAction(MotionEvent.ACTION_DOWN);
+                    dispatchingChildrenDownFaked = true;
+                }
+                dragContentView.dispatchTouchEvent(event);
+            }
+
+            if (dispatchingChildrenContentView && dispatchingChildrenStartedAtY < event.getY()) {
+                resetDispatchingContentView();
+            }
+
+            if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL) {
+                resetDispatchingContentView();
+                dragContentView.dispatchTouchEvent(event);
+            }
+
+            return true;
+        }else{
+            dragContentView.dispatchTouchEvent(event);
+            return super.dispatchTouchEvent(event);
         }
 
     }
