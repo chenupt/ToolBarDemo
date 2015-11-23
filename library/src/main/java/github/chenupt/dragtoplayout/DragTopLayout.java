@@ -368,7 +368,8 @@ public class DragTopLayout extends FrameLayout {
     public boolean onTouchEvent(MotionEvent event) {
 
         final int action = MotionEventCompat.getActionMasked(event);
-
+        if (action == MotionEvent.ACTION_DOWN)
+            return true;
         if (!dispatchingChildrenContentView) {
             try {
                 // There seems to be a bug on certain devices: "pointerindex out of range" in viewdraghelper
