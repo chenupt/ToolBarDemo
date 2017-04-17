@@ -56,18 +56,18 @@ Add the DragTopLayout in your layout.
 
 Changelog
 ---
-###v1.2.1
+### v1.2.1
  * Fixed [#12](https://github.com/chenupt/DragTopLayout/issues/12)
  * Fixed [#20](https://github.com/chenupt/DragTopLayout/issues/20)
  * Support [PullToRefresh](https://github.com/chenupt/DragTopLayout/blob/master/sample%2Fsrc%2Fmain%2Fjava%2Fgithub%2Fchenupt%2Fdragtoplayout%2Fdemo%2Fpulltorefresh%2FPullToRefreshTopLayout.java)
 
-###v1.2.0
+### v1.2.0
  * Support Scrolling continue [#7](https://github.com/chenupt/DragTopLayout/pull/7).@sockeqwe
  * Retain state [#8](https://github.com/chenupt/DragTopLayout/pull/8).@sockeqwe
  * Fixed [#10](https://github.com/chenupt/DragTopLayout/issues/10), [#5](https://github.com/chenupt/DragTopLayout/issues/5), [#4](https://github.com/chenupt/DragTopLayout/issues/4).
  * Remove wizard.
 
-###v1.1.0
+### v1.1.0
  * Support [collapse offset](https://github.com/chenupt/DragTopLayout/issues/2).
  * Support drag down while attaching top view.
  * Support attributes in xml.
